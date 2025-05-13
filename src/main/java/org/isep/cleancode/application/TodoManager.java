@@ -7,9 +7,9 @@ import java.util.List;
 
 public class TodoManager {
 
-    private final TodoRepository repository;
+    private final ITodoRepository repository;
 
-    public TodoManager(TodoRepository repository) {
+    public TodoManager(ITodoRepository repository) {
         this.repository = repository;
     }
 

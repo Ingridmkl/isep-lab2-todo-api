@@ -3,6 +3,7 @@ package org.isep.cleancode.presentation;
 import com.google.gson.*;
 import org.isep.cleancode.Todo;
 import org.isep.cleancode.application.TodoManager;
+import org.isep.cleancode.application.ITodoRepository;
 import org.isep.cleancode.persistence.TodoRepository;
 import spark.Request;
 import spark.Response;
@@ -33,8 +34,8 @@ public class TodoController {
 
     private final TodoManager manager;
 
-    public TodoController() {
-        this.manager = new TodoManager(new TodoRepository());
+    public TodoController(ITodoRepository repository) {
+        this.manager = new TodoManager(repository);
     }
 
     public Object getAllTodos(Request req, Response res) {
