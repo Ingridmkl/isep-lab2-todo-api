@@ -1,6 +1,7 @@
-package org.isep.cleancode;
+package org.isep.cleancode.persistence;
 
 import com.google.gson.*;
+import org.isep.cleancode.Todo;
 import spark.Request;
 import spark.Response;
 
