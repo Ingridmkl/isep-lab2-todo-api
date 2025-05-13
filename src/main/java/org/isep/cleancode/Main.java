@@ -2,7 +2,7 @@ package org.isep.cleancode;
 
 import static spark.Spark.*;
 
-import org.isep.cleancode.persistence.TodoController;
+import org.isep.cleancode.presentation.TodoController;
 
 public class Main {
     private static final TodoController todoController = new TodoController();

@@ -1,7 +1,9 @@
-package org.isep.cleancode.persistence;
+package org.isep.cleancode.presentation;
 
 import com.google.gson.*;
 import org.isep.cleancode.Todo;
+import org.isep.cleancode.application.TodoManager;
+import org.isep.cleancode.persistence.TodoRepository;
 import spark.Request;
 import spark.Response;
 
@@ -30,12 +32,17 @@ public class TodoController {
                 }
             })
             .create();
-    private final List<Todo> todos = new ArrayList<>();
+
+    private final TodoManager manager;
+
+    public TodoController() {
+        this.manager = new TodoManager(new TodoRepository());
+    }
 
     public Object getAllTodos(Request req, Response res) {
         res.type("application/json");
 
-        return gson.toJson(todos);
+        return gson.toJson(manager.getAllTodos());
     }
 
     public Object createTodo(Request req, Response res) {
@@ -43,18 +50,9 @@ public class TodoController {
 
         try {
             Todo newTodo = gson.fromJson(req.body(), Todo.class);
-
-            for (Todo todo : todos) {
-                if (todo.getName().equalsIgnoreCase(newTodo.getName())) {
-                    res.status(400); // Returns 400 if the business rules are not respected
-                    return gson.toJson("Todo name must be unique.");
-                }
-            }
-
-            todos.add(newTodo);
-            res.status(201); // Returns 201 if ok
-            return gson.toJson(newTodo);
-
+            Todo createTodo = manager.createTodo(newTodo);
+            res.status(201);
+            return gson.toJson(createTodo);
         } catch (IllegalArgumentException e) {
             res.status(400);
             return gson.toJson(e.getMessage());
